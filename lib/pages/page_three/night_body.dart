@@ -3,6 +3,8 @@ import 'package:flutter_project/models/data.dart';
 import 'package:flutter_project/pages/page_three/night_item_card.dart';
 import 'package:flutter_project/pages/page_three/night_item_withimg.dart';
 import 'package:flutter_project/provider/theme.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 //import 'item_withimage.dart';
@@ -10,6 +12,12 @@ import 'package:flutter_project/provider/theme.dart';
 class NightBodyPage extends StatelessWidget {
   const NightBodyPage({Key? key, required this.nightShop}) : super(key: key);
   final NightShop nightShop;
+  void _launchUrl() async {
+    if (!await launchUrl(Uri.parse(nightShop.nsUrl ?? ''))) {
+      throw 'Could not launch';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -47,7 +55,16 @@ class NightBodyPage extends StatelessWidget {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                //NightItemWithImage(nightShop: nightShop),
+                                ElevatedButton(
+                                    onPressed: _launchUrl,
+                                    child: const Text('Send Message')),
+                                // Link(
+                                //     uri: Uri.parse(nightShop.nsUrl ?? ''),
+                                //     builder: (context, followLink) =>
+                                //         ElevatedButton(
+                                //             onPressed: followLink,
+                                //             child: const Text('Buy Now'))
+                                //             )
                               ],
                             ),
                           )

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project/models/data.dart';
 import 'package:flutter_project/provider/theme.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 import 'item_withimage.dart';
@@ -8,6 +10,12 @@ import 'item_withimage.dart';
 class BodyPage extends StatelessWidget {
   const BodyPage({Key? key, required this.shop}) : super(key: key);
   final Shop shop;
+  void _launchUrl() async {
+    if (!await launchUrl(Uri.parse(shop.urlLink ?? ''))) {
+      throw 'Could not launch';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -51,6 +59,29 @@ class BodyPage extends StatelessWidget {
                                       .copyWith(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    ElevatedButton(
+                                        onPressed: _launchUrl,
+                                        child: const Text('Send Message')),
+
+                                    // Link(
+                                    //     uri: Uri.parse(shop.urlLink ?? ''),
+                                    //     builder: (context, followLink) =>
+                                    //         ElevatedButton(
+                                    //             onPressed: followLink,
+                                    //             child: const Text(
+                                    //                 'Send Message'))),
+                                    Link(
+                                        uri: Uri.parse("tel:09972233202"),
+                                        builder: (context, followLink) =>
+                                            ElevatedButton(
+                                                onPressed: followLink,
+                                                child: const Text('Call Now'))),
+                                  ],
                                 )
                               ],
                             ),
